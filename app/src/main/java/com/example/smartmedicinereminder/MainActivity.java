@@ -31,7 +31,8 @@ public class MainActivity extends AppCompatActivity implements MedicationAdapter
     private List<Medication> medicationList;
     private Button btnAddMedication, btnAIAssistant, btnMedicationLog;
     private TextView tvEmptyMessage;
-    private FloatingActionButton fabBatchDelete, fabConfirmDelete;
+    private FloatingActionButton fabBatchDelete;
+    private Button btnConfirmDelete;
     private boolean isFirstLoad = true;
 
     @Override
@@ -113,7 +114,7 @@ public class MainActivity extends AppCompatActivity implements MedicationAdapter
         btnMedicationLog = findViewById(R.id.btnMedicationLog);
         tvEmptyMessage = findViewById(R.id.tvEmptyMessage);
         fabBatchDelete = findViewById(R.id.fabBatchDelete);
-        fabConfirmDelete = findViewById(R.id.fabConfirmDelete);
+        btnConfirmDelete = findViewById(R.id.btnConfirmDelete);
     }
 
     private void setupRecyclerView() {
@@ -151,8 +152,8 @@ public class MainActivity extends AppCompatActivity implements MedicationAdapter
             });
         }
 
-        if (fabConfirmDelete != null) {
-            fabConfirmDelete.setOnClickListener(v -> {
+        if (btnConfirmDelete != null) {
+            btnConfirmDelete.setOnClickListener(v -> {
                 List<Medication> selectedMedications = medicationAdapter.getSelectedMedications();
                 if (!selectedMedications.isEmpty()) {
                     showBatchDeleteConfirmation(selectedMedications.size());
@@ -175,21 +176,21 @@ public class MainActivity extends AppCompatActivity implements MedicationAdapter
 
     @Override
     public void onSelectionModeChanged(boolean isSelectionMode, int selectedCount) {
-        if (fabBatchDelete != null && fabConfirmDelete != null) {
+        if (fabBatchDelete != null && btnConfirmDelete != null) {
             if (isSelectionMode) {
                 fabBatchDelete.setImageResource(R.drawable.ic_close);
                 fabBatchDelete.setContentDescription("Exit selection mode");
 
                 if (selectedCount > 0) {
-                    fabConfirmDelete.setVisibility(View.VISIBLE);
-                    fabConfirmDelete.setContentDescription("Delete selected " + selectedCount + " medications");
+                    btnConfirmDelete.setVisibility(View.VISIBLE);
+                    btnConfirmDelete.setText("Delete (" + selectedCount + ")");
                 } else {
-                    fabConfirmDelete.setVisibility(View.GONE);
+                    btnConfirmDelete.setVisibility(View.GONE);
                 }
             } else {
                 fabBatchDelete.setImageResource(android.R.drawable.ic_menu_delete);
                 fabBatchDelete.setContentDescription("Batch delete");
-                fabConfirmDelete.setVisibility(View.GONE);
+                btnConfirmDelete.setVisibility(View.GONE);
             }
         }
     }
@@ -236,8 +237,8 @@ public class MainActivity extends AppCompatActivity implements MedicationAdapter
             if (fabBatchDelete != null) {
                 fabBatchDelete.setVisibility(View.GONE);
             }
-            if (fabConfirmDelete != null) {
-                fabConfirmDelete.setVisibility(View.GONE);
+            if (btnConfirmDelete != null) {
+                btnConfirmDelete.setVisibility(View.GONE);
             }
         } else {
             medicationRecyclerView.setVisibility(View.VISIBLE);
