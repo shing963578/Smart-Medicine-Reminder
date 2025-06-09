@@ -39,8 +39,8 @@ public class MedicationLogAdapter extends RecyclerView.Adapter<MedicationLogAdap
         holder.tvMedicationName.setText(log.getMedicationName());
 
         try {
-            SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
-            SimpleDateFormat outputFormat = new SimpleDateFormat("MMM dd HH:mm", Locale.getDefault());
+            SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
+            SimpleDateFormat outputFormat = new SimpleDateFormat("MMM dd HH:mm", Locale.ENGLISH);
             Date date = inputFormat.parse(log.getTakenTime());
             holder.tvTakenTime.setText("Taken at: " + outputFormat.format(date));
         } catch (ParseException e) {
@@ -55,7 +55,7 @@ public class MedicationLogAdapter extends RecyclerView.Adapter<MedicationLogAdap
             if (addressText != null && !addressText.isEmpty() && !addressText.equals("null")) {
                 locationText = "Location: " + addressText;
             } else {
-                locationText = String.format(Locale.getDefault(), "Location: %.6f, %.6f",
+                locationText = String.format(Locale.ENGLISH, "Location: %.6f, %.6f",
                         log.getLocationLat(), log.getLocationLng());
             }
         } else if (addressText != null && !addressText.isEmpty() &&
