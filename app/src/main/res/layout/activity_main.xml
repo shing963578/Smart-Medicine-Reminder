@@ -25,15 +25,35 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="My Medication List"
-            android:textSize="@dimen/elderly_text_size_huge"
-            android:textStyle="bold"
-            android:textColor="@color/high_contrast_text"
-            android:layout_margin="@dimen/elderly_margin"
-            android:gravity="center" />
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_margin="@dimen/elderly_margin">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="My Medication List"
+                android:textSize="@dimen/elderly_text_size_huge"
+                android:textStyle="bold"
+                android:textColor="@color/high_contrast_text"
+                android:gravity="center" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fabBatchDelete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:src="@android:drawable/ic_menu_delete"
+                android:contentDescription="Batch delete"
+                app:backgroundTint="@color/error_color"
+                app:tint="@android:color/white"
+                app:fabSize="mini" />
+
+        </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewMedications"
@@ -112,16 +132,5 @@
         </LinearLayout>
 
     </LinearLayout>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabBatchDelete"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="24dp"
-        android:src="@android:drawable/ic_menu_delete"
-        android:contentDescription="Batch delete"
-        app:backgroundTint="@color/error_color"
-        app:tint="@android:color/white" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
