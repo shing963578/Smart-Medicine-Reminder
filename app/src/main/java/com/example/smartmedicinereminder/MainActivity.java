@@ -173,15 +173,21 @@ public class MainActivity extends AppCompatActivity implements MedicationAdapter
         if (fabBatchDelete != null) {
             if (isSelectionMode) {
                 if (selectedCount > 0) {
-                    fabBatchDelete.setImageResource(R.drawable.ic_check);
+                    fabBatchDelete.setImageResource(R.drawable.ic_delete_confirm);
                     fabBatchDelete.setContentDescription("Delete selected " + selectedCount + " medications");
+                    fabBatchDelete.setBackgroundTintList(android.content.res.ColorStateList.valueOf(
+                            ContextCompat.getColor(this, R.color.success_color)));
                 } else {
                     fabBatchDelete.setImageResource(R.drawable.ic_close);
                     fabBatchDelete.setContentDescription("Exit selection mode");
+                    fabBatchDelete.setBackgroundTintList(android.content.res.ColorStateList.valueOf(
+                            ContextCompat.getColor(this, R.color.error_color)));
                 }
             } else {
                 fabBatchDelete.setImageResource(android.R.drawable.ic_menu_delete);
                 fabBatchDelete.setContentDescription("Batch delete");
+                fabBatchDelete.setBackgroundTintList(android.content.res.ColorStateList.valueOf(
+                        ContextCompat.getColor(this, R.color.error_color)));
             }
         }
     }
