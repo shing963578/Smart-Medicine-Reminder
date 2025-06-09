@@ -152,10 +152,24 @@ public class MedicationAdapter extends RecyclerView.Adapter<MedicationAdapter.Me
             holder.btnEdit.setVisibility(View.GONE);
             holder.btnDelete.setVisibility(View.GONE);
             holder.checkbox.setChecked(selectedPositions.contains(position));
+
+            holder.checkbox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                if (isChecked) {
+                    if (!selectedPositions.contains(position)) {
+                        selectedPositions.add(position);
+                    }
+                } else {
+                    selectedPositions.remove(Integer.valueOf(position));
+                }
+                if (selectionModeListener != null) {
+                    selectionModeListener.onSelectionModeChanged(isSelectionMode, selectedPositions.size());
+                }
+            });
         } else {
             holder.checkbox.setVisibility(View.GONE);
             holder.btnEdit.setVisibility(View.VISIBLE);
             holder.btnDelete.setVisibility(View.VISIBLE);
+            holder.checkbox.setOnCheckedChangeListener(null);
         }
 
         holder.itemView.setOnClickListener(v -> {
