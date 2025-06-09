@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/high_contrast_bg">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/primary_color"
+            app:title="Reminder Settings"
+            app:titleTextColor="@android:color/white"
+            app:titleTextAppearance="@style/ElderlyToolbarTitle"
+            app:navigationIcon="@drawable/ic_arrow_back" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/elderly_margin">
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/elderly_margin"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="8dp"
+                app:strokeWidth="2dp"
+                app:strokeColor="@color/warning_color">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/elderly_card_padding">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Snooze Reminder Settings"
+                        android:textSize="@dimen/elderly_text_size_large"
+                        android:textStyle="bold"
+                        android:textColor="@color/warning_color"
+                        android:layout_marginBottom="@dimen/elderly_margin" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Snooze Reminder Time"
+                        android:textSize="@dimen/elderly_text_size_medium"
+                        android:textStyle="bold"
+                        android:textColor="@color/high_contrast_text"
+                        android:layout_marginBottom="12dp" />
+
+                    <TextView
+                        android:id="@+id/tvSnoozeInterval"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="5 minutes"
+                        android:textSize="@dimen/elderly_text_size_normal"
+                        android:textColor="@color/text_secondary"
+                        android:layout_marginBottom="12dp"
+                        android:textStyle="bold" />
+
+                    <SeekBar
+                        android:id="@+id/seekBarSnoozeInterval"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:max="11"
+                        android:progress="0"
+                        android:layout_marginBottom="@dimen/elderly_margin"
+                        android:minHeight="48dp" />
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/elderly_margin"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="8dp"
+                app:strokeWidth="2dp"
+                app:strokeColor="@color/accent_color">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/elderly_card_padding">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Vibration Duration Settings"
+                        android:textSize="@dimen/elderly_text_size_large"
+                        android:textStyle="bold"
+                        android:textColor="@color/accent_color"
+                        android:layout_marginBottom="@dimen/elderly_margin" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Auto Stop Vibration After"
+                        android:textSize="@dimen/elderly_text_size_medium"
+                        android:textStyle="bold"
+                        android:textColor="@color/high_contrast_text"
+                        android:layout_marginBottom="12dp" />
+
+                    <TextView
+                        android:id="@+id/tvVibrationDuration"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="30 seconds"
+                        android:textSize="@dimen/elderly_text_size_normal"
+                        android:textColor="@color/text_secondary"
+                        android:layout_marginBottom="12dp"
+                        android:textStyle="bold" />
+
+                    <SeekBar
+                        android:id="@+id/seekBarVibrationDuration"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:max="35"
+                        android:progress="5"
+                        android:layout_marginBottom="16dp"
+                        android:minHeight="48dp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="When medication reminder is triggered, vibration will automatically stop after the set duration if no action is taken"
+                        android:textSize="@dimen/elderly_text_size_normal"
+                        android:textColor="@color/text_secondary"
+                        android:lineSpacingExtra="4dp" />
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

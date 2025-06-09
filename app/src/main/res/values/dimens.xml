@@ -1,0 +1,15 @@
+<resources>
+    <dimen name="fab_margin">16dp</dimen>
+
+    <dimen name="elderly_text_size_huge">28sp</dimen>
+    <dimen name="elderly_text_size_large">24sp</dimen>
+    <dimen name="elderly_text_size_medium">20sp</dimen>
+    <dimen name="elderly_text_size_normal">18sp</dimen>
+
+    <dimen name="elderly_button_height">72dp</dimen>
+    <dimen name="elderly_button_padding">20dp</dimen>
+    <dimen name="elderly_card_padding">24dp</dimen>
+    <dimen name="elderly_margin">20dp</dimen>
+
+    <dimen name="elderly_touch_target">64dp</dimen>
+</resources>

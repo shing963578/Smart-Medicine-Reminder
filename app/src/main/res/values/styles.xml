@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="ElderlyToolbarTitle" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textSize">24sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="ElderlyButton" parent="Widget.Material3.Button">
+        <item name="android:textSize">@dimen/elderly_text_size_medium</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:minHeight">@dimen/elderly_button_height</item>
+        <item name="android:padding">@dimen/elderly_button_padding</item>
+        <item name="cornerRadius">16dp</item>
+        <item name="android:textColor">@color/elderly_button_text</item>
+    </style>
+
+    <style name="ElderlyCard" parent="Widget.Material3.CardView.Elevated">
+        <item name="cardCornerRadius">16dp</item>
+        <item name="cardElevation">8dp</item>
+        <item name="strokeWidth">2dp</item>
+        <item name="contentPadding">@dimen/elderly_card_padding</item>
+    </style>
+
+    <style name="ElderlyTextInput" parent="Widget.Material3.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeWidth">3dp</item>
+        <item name="android:textSize">@dimen/elderly_text_size_medium</item>
+        <item name="android:textColor">@color/high_contrast_text</item>
+    </style>
+</resources>

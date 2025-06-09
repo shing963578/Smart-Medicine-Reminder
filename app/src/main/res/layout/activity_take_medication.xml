@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/elderly_margin"
+    android:background="@color/high_contrast_bg"
+    android:gravity="center">
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="24dp"
+        app:cardElevation="12dp"
+        app:strokeWidth="3dp"
+        app:strokeColor="@color/warning_color"
+        android:layout_marginBottom="40dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="32dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="🔔 Medication Reminder"
+                android:textSize="32sp"
+                android:textStyle="bold"
+                android:textColor="@color/warning_color"
+                android:gravity="center"
+                android:layout_marginBottom="24dp" />
+
+            <TextView
+                android:id="@+id/tvMedicationInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/elderly_text_size_large"
+                android:textColor="@color/high_contrast_text"
+                android:lineSpacingExtra="12dp"
+                android:gravity="center"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/btnTaken"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:text="✓ Taken"
+            android:textSize="@dimen/elderly_text_size_large"
+            android:textStyle="bold"
+            android:textColor="@color/elderly_button_text"
+            android:backgroundTint="@color/success_color"
+            app:cornerRadius="16dp"
+            app:icon="@drawable/ic_check"
+            app:iconGravity="start"
+            app:iconSize="36dp"
+            android:layout_marginBottom="16dp" />
+
+        <Button
+            android:id="@+id/btnSnooze"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:text="💤 Snooze (5 minutes)"
+            android:textSize="@dimen/elderly_text_size_large"
+            android:textStyle="bold"
+            android:textColor="@color/elderly_button_text"
+            android:backgroundTint="@color/warning_color"
+            app:cornerRadius="16dp"
+            app:icon="@drawable/ic_snooze"
+            app:iconGravity="start"
+            app:iconSize="36dp"
+            android:layout_marginBottom="16dp" />
+
+        <Button
+            android:id="@+id/btnSkip"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:text="❌ Skip This Time"
+            android:textSize="@dimen/elderly_text_size_large"
+            android:textStyle="bold"
+            android:textColor="@color/elderly_button_text"
+            android:backgroundTint="@color/error_color"
+            app:cornerRadius="16dp"
+            app:icon="@drawable/ic_close"
+            app:iconGravity="start"
+            app:iconSize="36dp" />
+
+    </LinearLayout>
+
+</LinearLayout>
