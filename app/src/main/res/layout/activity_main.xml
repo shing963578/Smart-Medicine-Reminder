@@ -30,7 +30,10 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:layout_margin="@dimen/elderly_margin">
+            android:layout_marginStart="@dimen/elderly_margin"
+            android:layout_marginEnd="@dimen/elderly_margin"
+            android:layout_marginTop="@dimen/elderly_margin"
+            android:layout_marginBottom="8dp">
 
             <TextView
                 android:layout_width="0dp"
