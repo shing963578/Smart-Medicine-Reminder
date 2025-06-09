@@ -13,22 +13,25 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MedicationAdapter.OnSelectionModeChangeListener {
     private static final int PERMISSION_REQUEST_CODE = 123;
     private RecyclerView medicationRecyclerView;
     private MedicationAdapter medicationAdapter;
     private List<Medication> medicationList;
     private Button btnAddMedication, btnAIAssistant, btnMedicationLog;
     private TextView tvEmptyMessage;
+    private FloatingActionButton fabBatchDelete;
     private boolean isFirstLoad = true;
 
     @Override
@@ -109,11 +112,13 @@ public class MainActivity extends AppCompatActivity {
         btnAIAssistant = findViewById(R.id.btnAIAssistant);
         btnMedicationLog = findViewById(R.id.btnMedicationLog);
         tvEmptyMessage = findViewById(R.id.tvEmptyMessage);
+        fabBatchDelete = findViewById(R.id.fabBatchDelete);
     }
 
     private void setupRecyclerView() {
         medicationList = new ArrayList<>();
         medicationAdapter = new MedicationAdapter(medicationList, this);
+        medicationAdapter.setSelectionModeListener(this);
         medicationRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         medicationRecyclerView.setAdapter(medicationAdapter);
         medicationRecyclerView.setItemAnimator(null);
@@ -134,6 +139,50 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, MedicationLogActivity.class);
             startActivity(intent);
         });
+
+        if (fabBatchDelete != null) {
+            fabBatchDelete.setOnClickListener(v -> {
+                if (medicationAdapter.isSelectionMode()) {
+                    List<Medication> selectedMedications = medicationAdapter.getSelectedMedications();
+                    if (!selectedMedications.isEmpty()) {
+                        showBatchDeleteConfirmation(selectedMedications.size());
+                    } else {
+                        Toast.makeText(this, "Please select medications to delete", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    medicationAdapter.setSelectionMode(true);
+                }
+            });
+        }
+    }
+
+    private void showBatchDeleteConfirmation(int count) {
+        new AlertDialog.Builder(this)
+                .setTitle("Batch Delete Confirmation")
+                .setMessage("Are you sure you want to delete " + count + " selected medications?\nThis action cannot be undone.")
+                .setPositiveButton("Delete", (dialog, which) -> {
+                    medicationAdapter.deleteSelectedMedications();
+                    updateEmptyState();
+                })
+                .setNegativeButton("Cancel", null)
+                .show();
+    }
+
+    @Override
+    public void onSelectionModeChanged(boolean isSelectionMode, int selectedCount) {
+        if (fabBatchDelete != null) {
+            if (isSelectionMode) {
+                fabBatchDelete.setImageResource(R.drawable.ic_close);
+                if (selectedCount > 0) {
+                    fabBatchDelete.setContentDescription("Delete selected " + selectedCount + " medications");
+                } else {
+                    fabBatchDelete.setContentDescription("Exit selection mode");
+                }
+            } else {
+                fabBatchDelete.setImageResource(R.drawable.ic_close);
+                fabBatchDelete.setContentDescription("Batch delete");
+            }
+        }
     }
 
     @Override
@@ -175,9 +224,15 @@ public class MainActivity extends AppCompatActivity {
         if (medicationList.isEmpty()) {
             medicationRecyclerView.setVisibility(View.GONE);
             tvEmptyMessage.setVisibility(View.VISIBLE);
+            if (fabBatchDelete != null) {
+                fabBatchDelete.setVisibility(View.GONE);
+            }
         } else {
             medicationRecyclerView.setVisibility(View.VISIBLE);
             tvEmptyMessage.setVisibility(View.GONE);
+            if (fabBatchDelete != null) {
+                fabBatchDelete.setVisibility(View.VISIBLE);
+            }
         }
     }
 
@@ -186,6 +241,15 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         if (hasRequiredPermissions()) {
             loadMedications();
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (medicationAdapter != null && medicationAdapter.isSelectionMode()) {
+            medicationAdapter.setSelectionMode(false);
+        } else {
+            super.onBackPressed();
         }
     }
 

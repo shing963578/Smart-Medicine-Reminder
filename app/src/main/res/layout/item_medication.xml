@@ -21,6 +21,15 @@
             android:orientation="horizontal"
             android:gravity="center_vertical">
 
+            <CheckBox
+                android:id="@+id/checkbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:visibility="gone"
+                android:minWidth="48dp"
+                android:minHeight="48dp" />
+
             <TextView
                 android:id="@+id/tvMedicationName"
                 android:layout_width="0dp"

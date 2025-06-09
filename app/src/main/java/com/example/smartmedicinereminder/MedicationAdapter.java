@@ -6,21 +6,97 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MedicationAdapter extends RecyclerView.Adapter<MedicationAdapter.MedicationViewHolder> {
     private List<Medication> medications;
     private Context context;
+    private boolean isSelectionMode = false;
+    private List<Integer> selectedPositions = new ArrayList<>();
+    private OnSelectionModeChangeListener selectionModeListener;
+
+    public interface OnSelectionModeChangeListener {
+        void onSelectionModeChanged(boolean isSelectionMode, int selectedCount);
+    }
 
     public MedicationAdapter(List<Medication> medications, Context context) {
         this.medications = medications;
         this.context = context;
+    }
+
+    public void setSelectionModeListener(OnSelectionModeChangeListener listener) {
+        this.selectionModeListener = listener;
+    }
+
+    public void setSelectionMode(boolean enabled) {
+        isSelectionMode = enabled;
+        if (!enabled) {
+            selectedPositions.clear();
+        }
+        notifyDataSetChanged();
+        if (selectionModeListener != null) {
+            selectionModeListener.onSelectionModeChanged(isSelectionMode, selectedPositions.size());
+        }
+    }
+
+    public boolean isSelectionMode() {
+        return isSelectionMode;
+    }
+
+    public List<Medication> getSelectedMedications() {
+        List<Medication> selected = new ArrayList<>();
+        for (int position : selectedPositions) {
+            if (position < medications.size()) {
+                selected.add(medications.get(position));
+            }
+        }
+        return selected;
+    }
+
+    public void deleteSelectedMedications() {
+        List<Medication> toDelete = getSelectedMedications();
+        DatabaseHelper dbHelper = new DatabaseHelper(context);
+
+        for (Medication medication : toDelete) {
+            AlarmScheduler.cancelAlarms(context, medication);
+
+            if (medication.getPrescriptionImagePath() != null &&
+                    medication.getPrescriptionImagePath().startsWith("http")) {
+                ImageUploadService.deleteImage(medication.getPrescriptionImagePath(),
+                        new ImageUploadService.UploadCallback() {
+                            @Override
+                            public void onSuccess(String result) {}
+
+                            @Override
+                            public void onError(String error) {}
+                        });
+            }
+
+            dbHelper.deleteMedication(medication.getId());
+        }
+
+        List<Integer> sortedPositions = new ArrayList<>(selectedPositions);
+        sortedPositions.sort((a, b) -> b.compareTo(a));
+
+        for (int position : sortedPositions) {
+            if (position < medications.size()) {
+                medications.remove(position);
+            }
+        }
+
+        selectedPositions.clear();
+        setSelectionMode(false);
+        notifyDataSetChanged();
+
+        Toast.makeText(context, "Deleted " + toDelete.size() + " medications", Toast.LENGTH_SHORT).show();
     }
 
     @NonNull
@@ -71,6 +147,34 @@ public class MedicationAdapter extends RecyclerView.Adapter<MedicationAdapter.Me
             holder.ivPrescription.setVisibility(View.GONE);
         }
 
+        if (isSelectionMode) {
+            holder.checkbox.setVisibility(View.VISIBLE);
+            holder.btnEdit.setVisibility(View.GONE);
+            holder.btnDelete.setVisibility(View.GONE);
+            holder.checkbox.setChecked(selectedPositions.contains(position));
+        } else {
+            holder.checkbox.setVisibility(View.GONE);
+            holder.btnEdit.setVisibility(View.VISIBLE);
+            holder.btnDelete.setVisibility(View.VISIBLE);
+        }
+
+        holder.itemView.setOnClickListener(v -> {
+            if (isSelectionMode) {
+                toggleSelection(position);
+            } else {
+                showMedicationDetails(medication);
+            }
+        });
+
+        holder.itemView.setOnLongClickListener(v -> {
+            if (!isSelectionMode) {
+                setSelectionMode(true);
+                toggleSelection(position);
+                return true;
+            }
+            return false;
+        });
+
         holder.btnEdit.setOnClickListener(v -> {
             Intent intent = new Intent(context, EditMedicationActivity.class);
             intent.putExtra("medication_id", medication.getId());
@@ -78,8 +182,18 @@ public class MedicationAdapter extends RecyclerView.Adapter<MedicationAdapter.Me
         });
 
         holder.btnDelete.setOnClickListener(v -> showDeleteConfirmation(medication, position));
+    }
 
-        holder.itemView.setOnClickListener(v -> showMedicationDetails(medication));
+    private void toggleSelection(int position) {
+        if (selectedPositions.contains(position)) {
+            selectedPositions.remove(Integer.valueOf(position));
+        } else {
+            selectedPositions.add(position);
+        }
+        notifyItemChanged(position);
+        if (selectionModeListener != null) {
+            selectionModeListener.onSelectionModeChanged(isSelectionMode, selectedPositions.size());
+        }
     }
 
     private void showMedicationDetails(Medication medication) {
@@ -166,6 +280,7 @@ public class MedicationAdapter extends RecyclerView.Adapter<MedicationAdapter.Me
         TextView tvMedicationName, tvDosage, tvFrequency, tvTimes, tvNotes;
         ImageButton btnEdit, btnDelete;
         ImageView ivPrescription;
+        CheckBox checkbox;
 
         public MedicationViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -177,6 +292,7 @@ public class MedicationAdapter extends RecyclerView.Adapter<MedicationAdapter.Me
             btnEdit = itemView.findViewById(R.id.btnEdit);
             btnDelete = itemView.findViewById(R.id.btnDelete);
             ivPrescription = itemView.findViewById(R.id.ivPrescription);
+            checkbox = itemView.findViewById(R.id.checkbox);
         }
     }
 }
