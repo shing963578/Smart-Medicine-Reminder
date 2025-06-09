@@ -119,10 +119,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="24dp"
-        android:src="@drawable/ic_close"
+        android:src="@android:drawable/ic_menu_delete"
         android:contentDescription="Batch delete"
         app:backgroundTint="@color/error_color"
-        app:tint="@android:color/white"
-        android:visibility="gone" />
+        app:tint="@android:color/white" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

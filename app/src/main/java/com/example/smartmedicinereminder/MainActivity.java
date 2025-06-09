@@ -147,7 +147,7 @@ public class MainActivity extends AppCompatActivity implements MedicationAdapter
                     if (!selectedMedications.isEmpty()) {
                         showBatchDeleteConfirmation(selectedMedications.size());
                     } else {
-                        Toast.makeText(this, "Please select medications to delete", Toast.LENGTH_SHORT).show();
+                        medicationAdapter.setSelectionMode(false);
                     }
                 } else {
                     medicationAdapter.setSelectionMode(true);
@@ -172,14 +172,15 @@ public class MainActivity extends AppCompatActivity implements MedicationAdapter
     public void onSelectionModeChanged(boolean isSelectionMode, int selectedCount) {
         if (fabBatchDelete != null) {
             if (isSelectionMode) {
-                fabBatchDelete.setImageResource(R.drawable.ic_close);
                 if (selectedCount > 0) {
+                    fabBatchDelete.setImageResource(R.drawable.ic_check);
                     fabBatchDelete.setContentDescription("Delete selected " + selectedCount + " medications");
                 } else {
+                    fabBatchDelete.setImageResource(R.drawable.ic_close);
                     fabBatchDelete.setContentDescription("Exit selection mode");
                 }
             } else {
-                fabBatchDelete.setImageResource(R.drawable.ic_close);
+                fabBatchDelete.setImageResource(android.R.drawable.ic_menu_delete);
                 fabBatchDelete.setContentDescription("Batch delete");
             }
         }
