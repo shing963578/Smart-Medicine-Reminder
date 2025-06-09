@@ -46,10 +46,21 @@
                 android:gravity="center" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fabConfirmDelete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="12dp"
+                android:src="@drawable/ic_delete_confirm"
+                android:contentDescription="Confirm delete"
+                app:backgroundTint="@color/success_color"
+                app:tint="@android:color/white"
+                app:fabSize="mini"
+                android:visibility="gone" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/fabBatchDelete"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
                 android:src="@android:drawable/ic_menu_delete"
                 android:contentDescription="Batch delete"
                 app:backgroundTint="@color/error_color"
